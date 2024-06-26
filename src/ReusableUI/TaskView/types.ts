@@ -14,6 +14,6 @@ export type  TStatuses = {
     [key in TStatus]: IStatusParams;
 }
 
-export interface ITaskView extends Omit<ITask, 'deleted' | 'id'> {
+export interface ITaskView extends Omit<ITask, 'id'> {
     actions?: ReactNode[]
 }
