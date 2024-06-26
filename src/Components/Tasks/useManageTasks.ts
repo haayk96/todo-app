@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addNewTasks, editTask } from 'Store/Slices/TasksSlice';
 import { ITask, TStatus } from "types";
 import { ITaskFormData } from "types";
+import { onCheckConvertDate } from "Utils/checkDate";
 
 export function useManageTasks(notificationAPI: NotificationInstance) {
     const dispatch = useDispatch();
@@ -33,13 +34,12 @@ export function useManageTasks(notificationAPI: NotificationInstance) {
     const deleteModalOpen = useMemo(() => selectedTaskParams?.actionType === 'Delete', [selectedTaskParams?.actionType]);
 
     const editTaskHandler = useCallback(({ title, description, deadline }: ITaskFormData<number>) => {
-        const expDate = deadline ? new Date(deadline).getTime() : null;
 
         dispatch(editTask({
             id: selectedTaskParams.id!,
             title,
             description,
-            deadline: expDate,
+            deadline: onCheckConvertDate(deadline),
             status: 'pending'
         }));
 
@@ -57,13 +57,11 @@ export function useManageTasks(notificationAPI: NotificationInstance) {
     const addTaskHandler = useCallback(({ title, description = '', deadline = null }: ITaskFormData<number>) => {
         const id = new Date().getTime().toString();
 
-        const expDate = deadline ? new Date(deadline).getTime() : null;
-
         dispatch(addNewTasks({
             id,
             title,
             description,
-            deadline: expDate,
+            deadline: onCheckConvertDate(deadline),
             status: 'pending'
         }));
 

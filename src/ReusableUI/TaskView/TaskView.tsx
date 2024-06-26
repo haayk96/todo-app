@@ -2,6 +2,7 @@ import { memo } from 'react';
 import {  Badge, Card, Typography, } from 'antd';
 import { ITaskView } from './types';
 import { Statuses } from './data';
+import { checkStatusIsOverdue } from './checkStatusIsOverdue';
 
 const { Text, Paragraph } = Typography;
 const { Ribbon } = Badge;
@@ -13,9 +14,9 @@ function TaskItem({
     deadline,
     actions,
 }: ITaskView) {
-
+    const checkedStatus = checkStatusIsOverdue(deadline, status);
     return (
-        <Ribbon text={Statuses[status].text} color={Statuses[status].color}>
+        <Ribbon text={Statuses[checkedStatus].text} color={Statuses[checkedStatus].color}>
             <Card
                 title={title}
                 type='inner'
